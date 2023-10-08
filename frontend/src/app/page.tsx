@@ -1,8 +1,16 @@
 "use client";
 
+import Card from "@/components/Card";
+import { tMusicData } from "@/schemas/musics.schema";
+import api from "@/services/api";
+import { GetServerSideProps, NextPage } from "next";
 import { FormEvent, useState } from "react";
 
-export default function Home() {
+interface iHomeProps {
+  musics: tMusicData[]
+}
+
+export default function Home({ musics }: iHomeProps) {
 
   const [localStorage, setLocalStorage] = useState(getLocalStorage());
 
@@ -26,12 +34,19 @@ export default function Home() {
   }
 
   return (
-    <main className="body flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="body grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 justify-items-center p-24 min-h-screen">
 
-      <h2>{localStorage}</h2>
+      {musics.map(music =>
+        <Card key={music.id} music={music} />
+      )}
 
-      <button onClick={addLocalStorage}>Add LocalStorage!</button>
-      <button onClick={clearLocalStorage}>Clear LocalStorage!</button>
     </main>
-  )
-}
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await api.get<tMusicData[]>("/musics");
+  return {
+    props: { musics: response.data }
+  };
+};
