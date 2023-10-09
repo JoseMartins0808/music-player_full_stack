@@ -6,17 +6,17 @@ export class MusicsController {
     constructor(private musicsService: MusicsService) { }
 
     @Post()
-    create(@Body() data: any) {
-        return this.musicsService.create(data);
+    async create(@Body() data: any) {
+        return await this.musicsService.create(data);
     }
 
     @Get()
-    getAll() {
-        return this.musicsService.getAll();
+    async getAll() {
+        return await this.musicsService.getAll();
     }
 
     @Get(":musicId")
-    getOne(@Param("musicId") musicId: string) {
-        return this.musicsService.getOne(musicId);
+    async getOne(@Param("musicId") musicId: string) {
+        return await this.musicsService.getOne(musicId);
     }
 }
