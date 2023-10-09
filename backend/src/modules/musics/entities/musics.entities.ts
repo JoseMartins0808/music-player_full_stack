@@ -10,7 +10,7 @@ export class Music {
     year: string;
     cover_image: string | null;
     music_url: string | null;
-    user_id: string;
+    userId: string;
 
     constructor() {
         this.id = randomUUID();
